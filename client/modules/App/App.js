@@ -14,6 +14,9 @@ import Footer from './components/Footer/Footer';
 import { toggleAddPost } from './AppActions';
 import { switchLanguage } from '../../modules/Intl/IntlActions';
 
+// Import environtment
+import { ENV } from '../../../config/LocalEnvirontment';
+
 let DevTools;
 if (process.env.NODE_ENV === 'development') {
   // eslint-disable-next-line global-require
@@ -35,6 +38,7 @@ export class App extends Component {
   };
 
   render() {
+    console.log(ENV);
     return (
       <div>
         {this.state.isMounted && !window.devToolsExtension && process.env.NODE_ENV === 'development' && <DevTools />}
