@@ -8,7 +8,6 @@ import styles from './App.css';
 // Import Components
 import Helmet from 'react-helmet';
 import Header from './components/Header/Header';
-import Footer from './components/Footer/Footer';
 
 // Import Actions
 import { toggleAddPost } from './AppActions';
@@ -62,7 +61,6 @@ export class App extends Component {
           <div className={styles.container}>
             {this.props.children}
           </div>
-          <Footer />
         </div>
       </div>
     );

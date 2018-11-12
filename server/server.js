@@ -4,6 +4,8 @@ import mongoose from 'mongoose';
 import bodyParser from 'body-parser';
 import path from 'path';
 import IntlWrapper from '../client/modules/Intl/IntlWrapper';
+import reactCookie from 'react-cookies';
+import cookieParser from 'cookie-parser';
 
 // Initialize the Express App
 const app = new Express();
@@ -71,6 +73,7 @@ app.use(bodyParser.json({ limit: '20mb' }));
 app.use(bodyParser.urlencoded({ limit: '20mb', extended: false }));
 app.use(Express.static(path.resolve(__dirname, '../dist/client')));
 app.use('/api', posts);
+app.use(cookieParser());
 
 // Render Initial HTML
 const renderFullPage = (html, initialState) => {
@@ -136,6 +139,7 @@ app.use((req, res, next) => {
 
     return fetchComponentData(store, renderProps.components, renderProps.params)
       .then(() => {
+        reactCookie.plugToRequest(req, res);
         const initialView = renderToString(
           <Provider store={store}>
             <IntlWrapper>

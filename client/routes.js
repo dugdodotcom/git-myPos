@@ -1,7 +1,11 @@
 /* eslint-disable global-require */
 import React from 'react';
-import { Route, IndexRoute } from 'react-router';
+import { Router, Route, IndexRoute } from 'react-router';
 import App from './modules/App/App';
+import Main from './modules/Main/Main';
+import Auth from './modules/Auth/pages/Auth/Auth';
+// For cookie get and set
+import { getStorage } from './helpers/cookie';
 
 // require.ensure polyfill for node
 if (typeof require.ensure !== 'function') {
@@ -18,26 +22,93 @@ if (process.env.NODE_ENV !== 'production') {
   // Require async routes only in development for react-hot-reloader to work.
   require('./modules/Post/pages/PostListPage/PostListPage');
   require('./modules/Post/pages/PostDetailPage/PostDetailPage');
+  require('./modules/Auth/pages/Login/Login');
+  require('./modules/Auth/pages/Register/Register');
+  require('./modules/Inventory/pages/Lists/Lists');
 }
 
 // react-router setup with code-splitting
-// More info: http://blog.mxstbr.com/2016/01/react-apps-with-pages/
+// More info: http://blog.mxstbr.com/2016/01/react-apps-with-pages/\
+
+function requireAuth(nextState, replace) {
+  if (!getStorage('authorization')) {
+    replace({
+      pathname: '/auth/login',
+      state: { nextPathname: nextState.location.pathname },
+    });
+  }
+}
+
 export default (
-  <Route path="/" component={App}>
-    <IndexRoute
-      getComponent={(nextState, cb) => {
-        require.ensure([], require => {
-          cb(null, require('./modules/Post/pages/PostListPage/PostListPage').default);
-        });
-      }}
-    />
-    <Route
-      path="/posts/:slug-:cuid"
-      getComponent={(nextState, cb) => {
-        require.ensure([], require => {
-          cb(null, require('./modules/Post/pages/PostDetailPage/PostDetailPage').default);
-        });
-      }}
-    />
-  </Route>
+  <Router component={Main}>
+    <Route path="/" component={App} onEnter={requireAuth}>
+      <IndexRoute
+        getComponent={(nextState, cb) => {
+          require.ensure([], require => {
+            cb(null, require('./modules/Post/pages/PostListPage/PostListPage').default);
+          });
+        }}
+      />
+      <Route
+        path="/posts/:slug-:cuid"
+        getComponent={(nextState, cb) => {
+          require.ensure([], require => {
+            cb(null, require('./modules/Post/pages/PostDetailPage/PostDetailPage').default);
+          });
+        }}
+      />
+
+      <Route
+        path="/inventory(/:page)(/:search)"
+        getComponent={(nextState, cb) => {
+          require.ensure([], require => {
+            cb(null, require('./modules/Inventory/pages/Lists/Lists').default);
+          });
+        }}
+      />
+    </Route>
+
+    <Route component={Auth}>
+      <Route
+        path="/auth/login"
+        getComponent={(nextState, cb) => {
+          require.ensure([], require => {
+            cb(null, require('./modules/Auth/pages/Login/Login').default);
+          });
+        }}
+      />
+
+      <Route
+        path="/auth/register"
+        getComponent={(nextState, cb) => {
+          require.ensure([], require => {
+            cb(null, require('./modules/Auth/pages/Register/Register').default);
+          });
+        }}
+      />
+    </Route>
+  </Router>
 );
+
+// const fakeAuth = {
+//   isAuthenticated: getStorage('authorization') ? true : false
+// };
+
+// const PrivateRoute = ({ component: Component, ...rest }) => (
+//   <Route
+//     {...rest}
+//     render={props =>
+//       fakeAuth.isAuthenticated ? (
+//         <Component {...props} />
+//       ) : (
+//         <Redirect
+//           to={{
+//             pathname: "/auth",
+//             state: { from: props.location }
+//           }}
+//         />
+//       )
+//     }
+//   />
+// );
+
