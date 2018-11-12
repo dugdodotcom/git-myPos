@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-export class Auth extends Component {
+export class Register extends Component {
   constructor(props) {
     super(props);
     this.props = props;
@@ -11,21 +10,16 @@ export class Auth extends Component {
     return (
       <div className="container">
         <div className="row">
-          <div className="col-12">
-          </div>
+          <div className="col-6">Column</div>
         </div>
         <div className="row">
-          <div className="col-12">
-            {this.props.children}
-          </div>
+          <div className="col-6">Column</div>
         </div>
       </div>
     );
   }
 }
 
-Auth.propTypes = {
-  children: PropTypes.object.isRequired,
-};
+Register.need = [];
 
-export default connect()(Auth);
+export default connect()(Register);

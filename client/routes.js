@@ -2,7 +2,8 @@
 import React from 'react';
 import { Router, Route, IndexRoute } from 'react-router';
 import App from './modules/App/App';
-import Home from './modules/Home/Home';
+import Main from './modules/Main/Main';
+import Auth from './modules/Auth/pages/Auth/Auth';
 // For cookie get and set
 import { getStorage } from './helpers/cookie';
 
@@ -32,14 +33,14 @@ if (process.env.NODE_ENV !== 'production') {
 function requireAuth(nextState, replace) {
   if (!getStorage('authorization')) {
     replace({
-      pathname: '/auth',
+      pathname: '/auth/login',
       state: { nextPathname: nextState.location.pathname },
     });
   }
 }
 
 export default (
-  <Router component={Home}>
+  <Router component={Main}>
     <Route path="/" component={App} onEnter={requireAuth}>
       <IndexRoute
         getComponent={(nextState, cb) => {
@@ -58,7 +59,7 @@ export default (
       />
 
       <Route
-        path="/nventory(/:page)(/:search)"
+        path="/inventory(/:page)(/:search)"
         getComponent={(nextState, cb) => {
           require.ensure([], require => {
             cb(null, require('./modules/Inventory/pages/Lists/Lists').default);
@@ -67,8 +68,9 @@ export default (
       />
     </Route>
 
-    <Route path="/auth" component={Home}>
-      <IndexRoute
+    <Route component={Auth}>
+      <Route
+        path="/auth/login"
         getComponent={(nextState, cb) => {
           require.ensure([], require => {
             cb(null, require('./modules/Auth/pages/Login/Login').default);
@@ -77,7 +79,7 @@ export default (
       />
 
       <Route
-        path="/register"
+        path="/auth/register"
         getComponent={(nextState, cb) => {
           require.ensure([], require => {
             cb(null, require('./modules/Auth/pages/Register/Register').default);

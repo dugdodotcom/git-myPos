@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import Footer from './components/Footer/Footer';
 
 export class Home extends Component {
   constructor(props) {
@@ -11,6 +12,7 @@ export class Home extends Component {
     return (
       <div>
         {this.props.children}
+        <Footer />
       </div>
     );
   }

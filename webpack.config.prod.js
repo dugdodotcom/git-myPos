@@ -27,7 +27,7 @@ module.exports = {
   },
 
   resolve: {
-    extensions: ['.js', '.jsx'],
+    extensions: ['.js', '.jsx', '.scss'],
     modules: [
       'client',
       'node_modules',
@@ -66,6 +66,10 @@ module.exports = {
                   }),
                 ],
               },
+            },
+            {
+              // Loads a SASS/SCSS file and compiles it to CSS
+              loader: 'sass-loader'
             },
           ],
         }),

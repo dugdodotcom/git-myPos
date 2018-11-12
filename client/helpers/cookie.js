@@ -1,16 +1,30 @@
-import cookies from 'js-cookie';
+import cookies from 'react-cookies';
+import { ENV } from '../../config/LocalEnvironment';
 
-const expires = 7;
-const secure = !(process.env.NODE_ENV === 'test' || process.env.NODE_ENV === 'development');
+const expires = new Date();
+expires.setDate(expires.getDate() + 7);
 
-export const clearStorage = (name) => {
-  cookies.remove(name);
+const option = {
+  path: '/',
+  expires,
+  maxAge: 1000,
+  domain: ENV.domain,
 };
 
-export const setStorage = (name, value, settings = { expires, secure }) => {
-  cookies.set(name, value, settings);
+// only production using https only, comment these below if you not willing to use https
+if (process.env.NODE_ENV === 'production') {
+  option.secure = true;
+  option.httpOnly = true;
+}
+
+export const clearStorage = (name) => {
+  cookies.remove(name, { path: '/' });
+};
+
+export const setStorage = (name, value, settings = option) => {
+  cookies.save(name, value, settings);
 };
 
 export const getStorage = (name) => {
-  return cookies.get(name);
+  return cookies.load(name);
 };
