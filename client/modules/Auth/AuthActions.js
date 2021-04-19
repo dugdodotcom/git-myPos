@@ -1,6 +1,12 @@
 import callApi from '../../util/apiCaller';
 import { errorForm } from '../Form/FormActions';
 
+// For cookie get and set
+import { setStorage, clearStorage, getStorage } from '../../helpers/cookie';
+
+// for redirecting page
+import { browserHistory } from 'react-router';
+
 // Export Constants
 export const SUBMIT_LOGIN = 'SUBMIT_LOGIN';
 
@@ -14,11 +20,10 @@ export function submitLogin(login) {
 
 export function loginRequest(input) {
   return (dispatch) => {
-    return callApi('login', 'post', {
-      user: {
-        email: input.email,
-        password: input.password,
-      },
+    return callApi('/oauth/token', 'post', {
+      email: input.email,
+      password: input.password,
+      grant_type: "password",
     })
     .then(res => {
       // If error will send error to form
@@ -33,8 +38,21 @@ export function loginRequest(input) {
         }
         dispatch(errorForm(error));
       } else {
-        dispatch(submitLogin(res));
+        // redirect page for success login
+        setStorage('token', res.access_token);
+        browserHistory.push('/');
       }
+    });
+  };
+}
+
+export function logoutRequest(input) {
+  return (dispatch) => {
+    return callApi('/logout', 'delete')
+    .then(res => {
+      // redirect page for success login
+      clearStorage('authorization');
+      browserHistory.push('/auth/login');
     });
   };
 }

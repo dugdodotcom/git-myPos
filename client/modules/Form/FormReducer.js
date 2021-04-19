@@ -1,9 +1,10 @@
 // Import Actions
-import { ERROR_FORM } from './FormActions';
+import { ERROR_FORM, TOGGLE_VIEW_FORM } from './FormActions';
 
 // Initial State
 const initialState = {
-  data: false,
+  data: undefined,
+  showForm: false,
 };
 
 const FormReducer = (state = initialState, action) => {
@@ -11,6 +12,11 @@ const FormReducer = (state = initialState, action) => {
     case ERROR_FORM:
       return {
         data: action.error,
+      };
+
+    case TOGGLE_VIEW_FORM:
+      return {
+        showForm: !state.showForm,
       };
 
     default:
@@ -22,6 +28,9 @@ const FormReducer = (state = initialState, action) => {
 
 // Get errorForm
 export const getErrorForm = state => state.errorForm.data;
+
+// Get toggle viewForm
+export const getViewForm = state => state.errorForm.showForm;
 
 // Export Reducer
 export default FormReducer;

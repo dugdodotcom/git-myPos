@@ -13,50 +13,56 @@ import { browserHistory } from 'react-router';
 //   process.env.BASE_URL || (`${ENV.apiUrl}${ENV.apiVersion}`) :
 //   '/api';
 
-export const API_URL = `${ENV.apiUrl}${ENV.apiVersion}`;
+export const API_URL = ENV.apiUrl;
 
-export default function callApi(endpoint, method = 'get', body) {
-  function redirectLogin() {
-    browserHistory.push('/auth/register');
-  }
-  let returnApi = false;
-
-  function fetchApi(url) {
-    return fetch(url, {
-      headers: { 'content-type': 'application/json' },
-      method,
-      body: JSON.stringify(body),
-    })
-    .then(response => response.json().then(json => ({ json, response })))
-    .then(({ json, response }) => {
-      if (!response.ok) {
-        return Promise.reject(json);
-      }
-
-      // only for login we need to get header information
-      if (endpoint === 'login' && json.id) {
-        setStorage('authorization', response.headers.get('Authorization'));
-        browserHistory.push('/');
-      }
-
-      return json;
-    })
-    .then(
-      response => response,
-      error => error
-    );
-  }
-
-  if (getStorage('authorization')) {
-    returnApi = fetchApi(`${API_URL}/${endpoint}`);
-  }
-  if (!getStorage('authorization')) {
-    if (endpoint === 'login') {
-      returnApi = fetchApi(`${ENV.apiUrl}/${endpoint}`);
-    } else {
-      redirectLogin();
-      returnApi = false;
+export default function callApi(endpoint, method = 'get', body, type = 'application/json') {
+  const authorization = getStorage('token');
+  let bodyParams;
+  if (type === 'multipart/form-data') {
+    bodyParams = new FormData();
+    Object.entries(body).map(
+      ([k, v], i) => bodyParams.append(k, v)
+    )
+    console.log(bodyParams);
+    for (var pair of bodyParams.entries()) {
+      console.log(pair[0]+ ', ' + pair[1]); 
     }
+    // bodyParams.append('client_view', clientView);
+    // bodyParams.append('comment_text', comment);
+    // bodyParams.append('project_id', project_id);
+    // bodyParams.append('currenttime', datetime);
+    // bodyParams.append('commentasset', file);
+  } else {
+    bodyParams = JSON.stringify(body)
   }
-  return returnApi;
+
+  let fetchData = {
+    headers: { 'content-type': type },
+    method,
+    body: bodyParams,
+  }
+
+  if (authorization) {
+    fetchData.headers.Authorization = `Bearer ${authorization}`;
+  }
+
+  return fetch(`${API_URL}${endpoint}`, fetchData)
+  .then(response => response.json().then(json => ({ json, response })))
+  .then(({ json, response }) => {
+    if (!response.ok) {
+      return Promise.reject(json);
+    }
+
+    // only for login we need to get header information
+    if (endpoint === 'login' && json.id) {
+      json.authorization = response.headers.get('Authorization');
+    }
+
+    return json;
+  })
+  .then(
+    response => response,
+    error => error
+  );
+
 }
