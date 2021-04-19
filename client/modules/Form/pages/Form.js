@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
 // import style
-import bootStyle from '../../../Main.scss';
+// import bootStyle from '../../../Main.scss';
 
 export class Form extends Component {
   constructor(props) {
@@ -104,7 +104,7 @@ export class Form extends Component {
     }
 
     if (this.state.isValidated || this.props.errorForm) {
-      classNames.push(bootStyle['was-validated']);
+      classNames.push('was-validated');
     }
 
     if (this.props.errorForm) {
@@ -126,10 +126,10 @@ export class Form extends Component {
 }
 
 Form.propTypes = {
-  className: PropTypes.className,
+  className: PropTypes.string,
   submit: PropTypes.func,
   errorForm: PropTypes.object,
-  children: PropTypes.object.isRequired,
+  children: PropTypes.array,
 };
 
 export default Form;

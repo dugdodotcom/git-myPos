@@ -6,7 +6,7 @@ import { injectIntl, intlShape, FormattedMessage } from 'react-intl';
 import { Form } from '../../../Form/pages/Form';
 
 // Import Style
-import bootStyle from '../../../../Main';
+// import bootStyle from '../../../../Main';
 
 export class LoginForm extends Component {
   constructor(props) {
@@ -27,7 +27,7 @@ export class LoginForm extends Component {
     return (
       <div>
         <Form submit={this.submitLogin}>
-          <div className={bootStyle['form-group']}>
+          <div className={'form-group'}>
             <label htmlFor="input-email">
               <FormattedMessage id="emailAddress" />
             </label>
@@ -35,18 +35,18 @@ export class LoginForm extends Component {
               required
               name={"email"}
               type={"email"}
-              className={bootStyle['form-control']}
+              className={'form-control'}
               id="input-email"
               placeholder={this.props.intl.messages.enterEmail}
               ref="email"
             />
-            <div className={bootStyle['invalid-feedback']}>
+            <div className={'invalid-feedback'}>
               {this.props.showErrorForm && this.props.showErrorForm.email &&
                 <FormattedMessage id={this.props.showErrorForm.email} />
               }
             </div>
           </div>
-          <div className={bootStyle['form-group']}>
+          <div className={'form-group'}>
             <label htmlFor="input-password"><FormattedMessage id="password" /></label>
             <input
               required
@@ -54,19 +54,19 @@ export class LoginForm extends Component {
               type={"password"}
               // minLength={6}
               // pattern="(?=.*\d)(?=.*[a-z]).{6,}"
-              className={bootStyle['form-control']}
+              className={'form-control'}
               id="input-password"
               placeholder={this.props.intl.messages.password}
               ref="password"
             />
-            <small className={`${bootStyle['form-text']} ${bootStyle['text-muted']}`}>Must be at least 6 characters long, contain letters and numbers</small>
-            <div className={bootStyle['invalid-feedback']}>
+            <small className={'form-text text-muted'}>Must be at least 6 characters long, contain letters and numbers</small>
+            <div className={'invalid-feedback'}>
               {this.props.showErrorForm && this.props.showErrorForm.password &&
                 <FormattedMessage id={this.props.showErrorForm.password} />
               }
             </div>
           </div>
-          <button type={"submit"} className={`${bootStyle.btn} ${bootStyle['btn-primary']}`}><FormattedMessage id="submit" /></button>
+          <button type={"submit"} className={'btn btn-primary'}><FormattedMessage id="submit" /></button>
         </Form>
       </div>
     );

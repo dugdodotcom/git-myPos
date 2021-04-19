@@ -35,6 +35,8 @@ export default {
     submit: "Submit",
     emailNotFound: "Email not found",
     passwordNotMatch: "Password not match",
+    frontDesk: "Front Desk",
+    inventory: "Inventory",
   },
   
 };

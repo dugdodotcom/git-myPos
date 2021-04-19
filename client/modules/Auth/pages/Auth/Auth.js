@@ -6,7 +6,7 @@ import { FormattedMessage } from 'react-intl';
 
 // Import Style
 import styles from './Auth.css';
-import bootStyle from '../../../../Main.scss';
+// import bootStyle from '../../../../Main.scss';
 
 export class Auth extends Component {
   constructor(props) {
@@ -15,26 +15,28 @@ export class Auth extends Component {
   }
   render() {
     return (
-      <div className={`container ${styles['auth-box-center']}`}>
-        <div className={bootStyle.row}>
-          <div className={bootStyle['col-12']}>
-            <ul className={`${bootStyle.nav} ${bootStyle['nav-tabs']}`}>
-              <li className={bootStyle['nav-item']}>
-                <Link className={bootStyle['nav-link']} activeClassName={bootStyle.active} to={'/auth/login'} >
-                  <FormattedMessage id="logIn" />
-                </Link>
-              </li>
-              <li className={bootStyle['nav-item']}>
-                <Link className={bootStyle['nav-link']} activeClassName={bootStyle.active} to={'/auth/register'} >
-                  <FormattedMessage id="register" />
-                </Link>
-              </li>
-            </ul>
+      <div className={styles['auth-box-center']}>
+        <div className={'container'}>
+          <div className={'row'}>
+            <div className={'col-12'}>
+              <ul className={'nav nav-tabs'}>
+                <li className={'nav-item'}>
+                  <Link className={'nav-link'} activeClassName={'active'} to={'/auth/login'} >
+                    <FormattedMessage id="logIn" />
+                  </Link>
+                </li>
+                <li className={'nav-item'}>
+                  <Link className={'nav-link'} activeClassName={'active'} to={'/auth/register'} >
+                    <FormattedMessage id="register" />
+                  </Link>
+                </li>
+              </ul>
+            </div>
           </div>
-        </div>
-        <div className={bootStyle.row}>
-          <div className={bootStyle['col-12']}>
-            {this.props.children}
+          <div className={'row'}>
+            <div className={'col-12'}>
+              {this.props.children}
+            </div>
           </div>
         </div>
       </div>

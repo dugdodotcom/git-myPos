@@ -1,0 +1,12 @@
+.discounted {
+  color: red;
+  text-decoration: line-through;
+}
+
+.quantity {
+  color: black;
+}
+.rate-edited {
+  border: lightblue;
+  color: lightblue;
+}
