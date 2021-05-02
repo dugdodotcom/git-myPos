@@ -1,19 +1,17 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-function SearchInventory (props) {
+// Import Style
+import styles from './SearchInventory.css';
+
+function SearchInventory(props) {
+  
   return (
-    <div className="row">
-      <div className="col-sm">
-        One of three columns
+    <form>
+      <div className="form-group">
+        <input type="text" className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" />
       </div>
-      <div className="col-sm">
-        One of three columns
-      </div>
-      <div className="col-sm">
-        One of three columns
-      </div>
-  </div>
+    </form>
   )
 }
 

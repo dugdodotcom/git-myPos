@@ -9,7 +9,7 @@ import CalculatorPad from '../CalculatorPad/CalculatorPad'
 import {getSum} from '../../../../helpers/calculation'
 
 function CheckoutList (props) {
-
+  console.log("checkout", props)
   return (
     <div>
       <div>
@@ -25,7 +25,7 @@ function CheckoutList (props) {
           }
         </ul>
         <div className="float-right">
-          <h2>Total: {props.currenc} {getSum(props.checkoutLists, "rate")}</h2>
+          <h2>Total: {props.currency} {getSum(props.checkoutLists, "rate")}</h2>
         </div>
       </div>
       <CalculatorPad />
@@ -34,7 +34,7 @@ function CheckoutList (props) {
 }
 
 CheckoutList.propTypes = {
-  checkoutList: PropTypes.array
+  checkoutList: PropTypes.array,
 }
 
 export default CheckoutList

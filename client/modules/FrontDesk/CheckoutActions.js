@@ -1,7 +1,10 @@
+import callApi from '../../util/apiCaller';
+// getting endironment for API call
+import { ENV } from '../../../config/LocalEnvironment';
 
 // Export Constants
 export const ADD_POST = 'ADD_POST';
-export const ADD_POSTS = 'ADD_POSTS';
+export const ADD_PRODUCTS = 'ADD_PRODUCTS';
 export const DELETE_POST = 'DELETE_POST';
 
 // Export Actions
@@ -24,17 +27,20 @@ export function addPostRequest(post) {
   };
 }
 
-export function addPosts(posts) {
+export function addProducts(items) {
   return {
-    type: ADD_POSTS,
-    posts,
+    type: ADD_PRODUCTS,
+    items,
   };
 }
 
-export function fetchPosts() {
+export function fetchProducts(category) {
+  console.log("test");
   return (dispatch) => {
-    return callApi('posts').then(res => {
-      dispatch(addPosts(res.posts));
+    return callApi(
+      `${ENV.apiVersion}items/by-category/${category}`
+    ).then(res => {
+      dispatch(addProducts(res));
     });
   };
 }

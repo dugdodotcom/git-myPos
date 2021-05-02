@@ -40,7 +40,7 @@ export function loginRequest(input) {
       } else {
         // redirect page for success login
         setStorage('token', res.access_token);
-        browserHistory.push('/');
+        browserHistory.push('/home');
       }
     });
   };

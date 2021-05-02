@@ -4,6 +4,7 @@ import { Router, Route, IndexRoute } from 'react-router';
 import App from './modules/App/App';
 import Main from './modules/Main/Main';
 import Auth from './modules/Auth/pages/Auth/Auth';
+import MainDesk from './modules/FrontDesk/pages/MainDesk/MainDesk';
 // For cookie get and set
 import { getStorage } from './helpers/cookie';
 
@@ -32,6 +33,8 @@ if (process.env.NODE_ENV !== 'production') {
   require('./modules/Category/pages/CategoryEditPage/CategoryEditPage');
   require('./modules/Setting/pages/SettingPage/SettingPage');
   require('./modules/FrontDesk/pages/MainDesk/MainDesk');
+  require('./modules/FrontDesk/pages/CategoryPage/CategoryPage');
+  require('./modules/FrontDesk/pages/InventoryPage/InventoryPage');
 }
 
 // react-router setup with code-splitting
@@ -50,13 +53,33 @@ function requireAuth(nextState, replace) {
 export default (
   <Router component={Main}>
     <Route path="/" component={App} onEnter={requireAuth}>
-      <IndexRoute
+      {/* <IndexRoute
         getComponent={(nextState, cb) => {
           require.ensure([], require => {
             cb(null, require('./modules/FrontDesk/pages/MainDesk/MainDesk').default);
           });
         }}
-      />
+      /> */}
+      <Route
+        path="/home"
+        component={MainDesk}
+      >
+        <IndexRoute
+          getComponent={(nextState, cb) => {
+            require.ensure([], require => {
+              cb(null, require('./modules/FrontDesk/pages/CategoryPage/CategoryPage').default);
+            });
+          }}
+        />
+        <Route
+          path="/home/:slug"
+          getComponent={(nextState, cb) => {
+            require.ensure([], require => {
+              cb(null, require('./modules/FrontDesk/pages/InventoryPage/InventoryPage').default);
+            });
+          }}
+        />
+      </Route>
       <Route
         path="/posts/:slug-:cuid"
         getComponent={(nextState, cb) => {

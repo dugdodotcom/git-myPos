@@ -2,15 +2,13 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
-
-// get components
-import CategoryList from '../../components/CategoryList/CategoryList'
-
-// Import Selectors
-import { getCategories } from '../../CategoryReducer';
+import CategoryList from '../../components/CategoryList/CategoryList';
 
 // Import Action
 import { fetchCategories, deleteCategoryRequest } from '../../CategoryActions';
+
+// Import reducer
+import { getCategories } from '../../CategoryReducer';
 
 export class CategoryListPage extends Component {
   componentDidMount() {

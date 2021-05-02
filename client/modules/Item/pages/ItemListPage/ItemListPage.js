@@ -54,6 +54,7 @@ function mapStateToProps(state) {
 
 ItemListPage.propTypes = {
   dispatch: PropTypes.func.isRequired,
+  items: PropTypes.array.isRequired,
 };
 
 export default connect(mapStateToProps)(ItemListPage);

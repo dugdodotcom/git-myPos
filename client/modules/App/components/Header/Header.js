@@ -29,7 +29,7 @@ export function Header(props) {
         <div className={'collapse navbar-collapse'} id="navbarText">
           <ul className={`navbar-nav ${style['full-navbar']}`}>
             <li className={'nav-item'}>
-              <Link className={`nav-link ${frontDeskActive}`} to={'/'} >
+              <Link className={`nav-link ${frontDeskActive}`} to={'/home'} >
                 <FormattedMessage id="frontDesk" />
               </Link>
             </li>
